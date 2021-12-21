@@ -1,0 +1,20 @@
+App\Entity\Equipment:
+  equipment_karcher_k5:
+    name: "Karcher K5"
+    brand: "Karcher"
+    reference: "K5"
+
+  equipment_broyeur_vegetaux:
+    name: "Broyeur de branches"
+    brand: "GARDEN PRO"
+    reference: "BRF-78-C"
+
+App\Entity\EquipmentImage:
+  equipmentImage_karcher_k5:
+    imageName: karcher-k5.jpg
+    imageSize: 250
+    equipment: "@equipment_karcher_k5"
+  equipmentImage_broyeur_vegetaux:
+    imageName: Broyeur-de-branches-BRF78-C.jpg
+    imageSize: 250
+    equipment: "@equipment_broyeur_vegetaux"

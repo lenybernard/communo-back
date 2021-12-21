@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Simple script to enable or disable the xdebug extension
+case $1 in
+  on)
+    if [ -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini.deactivated ] && mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini.deactivated /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini; then
+        echo "xdebug activated"
+    else
+        echo "xdebug already activated"
+    fi
+  ;;
+  off)
+    if [ -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini ] && mv /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini.deactivated; then
+        echo "xdebug desactivated"
+    else
+        echo "xdebug already desactivated"
+    fi
+  ;;
+  *)
+    echo "Usage: debug on|off"
+  ;;
+esac
