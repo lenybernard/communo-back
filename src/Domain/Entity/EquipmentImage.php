@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\EquipmentImageRepository;
+use Infra\Repository\EquipmentImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
 use Symfony\Component\HttpFoundation\File\File;

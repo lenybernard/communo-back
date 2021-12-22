@@ -20,11 +20,11 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('purejs', './assets/app.ts')
-    .addEntry('app', './assets/app.tsx')
+    .addEntry('purejs', './src/UI/Asset/app.ts')
+    .addEntry('app', './src/UI/Asset/app.tsx')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
-    .enableStimulusBridge('./assets/controllers.json')
+    .enableStimulusBridge('./src/UI/Asset/controllers.json')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

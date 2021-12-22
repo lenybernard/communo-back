@@ -1,0 +1,64 @@
+paths:
+    - ./src
+    - ./vendor
+exclude_files:
+    - '#.*test.*#'
+layers:
+    - name: ServiceLayer
+      collectors:
+          - type: directory
+            regex: src/Service/.*
+    - name: DomainLayer
+      collectors:
+          - type: directory
+            regex: src/Domain/.*
+    - name: InfraLayer
+      collectors:
+          - type: directory
+            regex: src/Infra/.*
+    - name: UILayer
+      collectors:
+          - type: directory
+            regex: src/UI/.*
+    - name: Vendor
+      collectors:
+          - type: bool
+            must:
+                - type: directory
+                  regex: vendor/.*
+            must_not:
+                - type: directory
+                  regex: vendor/doctrine/.*
+                - type: classNameRegex
+                  regex: '#.*Doctrine.*#'
+    - name: DoctrineVendor
+      collectors:
+          - type: bool
+            must:
+                - type: directory
+                  regex: vendor/.*
+                - type: classNameRegex
+                  regex: '#.*Doctrine.*#'
+
+ruleset:
+    ServiceLayer:
+        - DomainLayer
+    DomainLayer:
+        - DoctrineVendor
+    InfraLayer:
+        - ServiceLayer
+        - DomainLayer
+        - UILayer
+        - Vendor
+        - DoctrineVendor
+    UILayer:
+        - ServiceLayer
+        - InfraLayer
+        - DomainLayer
+        - Vendor
+    DoctrineVendor:
+        - Vendor
+        - DoctrineVendor
+    Vendor:
+        - Vendor
+        - DoctrineVendor

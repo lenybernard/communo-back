@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7f43792464265dcb74705b36e3df4f6a",
+    "content-hash": "6fb9e8f743244e689e184c362483b06f",
     "packages": [
         {
             "name": "api-platform/core",
@@ -9961,6 +9961,59 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "qossmic/deptrac-shim",
+            "version": "0.18.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qossmic/deptrac-shim.git",
+                "reference": "29f44a37271466c5328e24c2f90f488f4279b656"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/qossmic/deptrac-shim/zipball/29f44a37271466c5328e24c2f90f488f4279b656",
+                "reference": "29f44a37271466c5328e24c2f90f488f4279b656",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "ext-zlib": "*",
+                "php": "^7.4 || 8.0.* || 8.1.*"
+            },
+            "replace": {
+                "qossmic/deptrac": "self.version"
+            },
+            "suggest": {
+                "ext-dom": "For using the JUnit output formatter"
+            },
+            "bin": [
+                "deptrac"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simon Mönch",
+                    "email": "simon.moench@qossmic.com",
+                    "role": "maintainer"
+                },
+                {
+                    "name": "Denis Brumann",
+                    "email": "denis.brumann@qossmic.com",
+                    "role": "maintainer"
+                }
+            ],
+            "description": "deptrac phar distribution",
+            "support": {
+                "issues": "https://github.com/qossmic/deptrac-shim/issues",
+                "source": "https://github.com/qossmic/deptrac-shim/tree/0.18.0"
+            },
+            "time": "2021-11-24T19:29:27+00:00"
+        },
         {
             "name": "symfony/debug-bundle",
             "version": "v5.4.0",

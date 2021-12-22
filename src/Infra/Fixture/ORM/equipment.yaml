@@ -1,4 +1,4 @@
-App\Entity\Equipment:
+Domain\Entity\Equipment:
   equipment_karcher_k5:
     name: "Karcher K5"
     brand: "Karcher"
@@ -9,7 +9,7 @@ App\Entity\Equipment:
     brand: "GARDEN PRO"
     reference: "BRF-78-C"
 
-App\Entity\EquipmentImage:
+Domain\Entity\EquipmentImage:
   equipmentImage_karcher_k5:
     imageName: karcher-k5.jpg
     imageSize: 250

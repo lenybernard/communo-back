@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Menu;
+namespace App\Service\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;

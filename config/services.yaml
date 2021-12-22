@@ -25,7 +25,7 @@ services:
     # please note that last definitions always *replace* previous ones
 
     app.menu_builder:
-        class: App\Menu\MenuBuilder
+        class: App\Service\Menu\MenuBuilder
         arguments: ["@knp_menu.factory"]
 
     app.main_menu:

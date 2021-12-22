@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\EquipmentRepository;
+use Infra\Repository\EquipmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
