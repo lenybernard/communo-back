@@ -3,33 +3,38 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\EquipmentImageRepository;
+use App\Repository\MaterialImageRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @Vich\Uploadable
  */
-#[ORM\Entity(repositoryClass: EquipmentImageRepository::class)]
-#[Vich\Uploadable]
+#[ORM\Entity(repositoryClass: MaterialImageRepository::class)]
 #[ApiResource]
-class EquipmentImage
+class MaterialImage
 {
-    use TimestampableTrait;
+    use TimestampablePropertiesTrait;
+    use TimestampableMethodsTrait;
 
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: "integer")]
-    private $id;
+    #[ORM\Column(type: "uuid")]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[Assert\Uuid]
+    private string $id;
 
-    #[ORM\ManyToOne(targetEntity: Equipment::class, inversedBy: "images")]
+    #[ORM\ManyToOne(targetEntity: Material::class, inversedBy: "images")]
     #[ORM\JoinColumn(nullable: false)]
-    private $equipment;
+    private $material;
 
     /**
-     * @Vich\UploadableField(mapping="equipment_image", fileNameProperty="imageName", size="imageSize")
+     * @Vich\UploadableField(mapping="material_image", fileNameProperty="imageName", size="imageSize")
      */
     private ?File $imageFile = null;
 
@@ -39,19 +44,19 @@ class EquipmentImage
     #[ORM\Column(type: 'integer')]
     private ?int $imageSize = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function getEquipment(): ?Equipment
+    public function getMaterial(): ?Material
     {
-        return $this->equipment;
+        return $this->material;
     }
 
-    public function setEquipment(?Equipment $equipment): self
+    public function setMaterial(?Material $material): self
     {
-        $this->equipment = $equipment;
+        $this->material = $material;
 
         return $this;
     }

@@ -1,0 +1,77 @@
+App\Entity\MaterialCategory:
+  materialCategory_outillage:
+    name: "Outillage"
+  materialCategory_terrasseJardin:
+    name: "Terrasse et jardin"
+  materialCategory_nettoyage:
+    name: "Nettoyage"
+    parent: "@materialCategory_outillage"
+  materialCategory_machineDAtelier:
+    name: "Nettoyage"
+    parent: "@materialCategory_outillage"
+  materialCategory_nettoyeurHautePression:
+    name: "Nettoyeur haute pression"
+    parent: "@materialCategory_nettoyage"
+  materialCategory_terrasseJardin_outillageMotorise:
+    name: "Outillage motorisé de jardin"
+    parent: "@materialCategory_nettoyage"
+  materialCategoryRoot{1..3}:
+    name: "<word()>"
+  materialCategoryRandom{1..10}:
+    name: "<word()>"
+    parent: "@materialCategoryRoot*"
+
+App\Entity\Material:
+  material_ScieRadiale1:
+    name: "Scie radiale à onglet"
+    brand: "AEG"
+    model: "PS254L"
+    reference: "0 601 B23 600"
+    category: "@materialCategory_machineDAtelier"
+    owner: "@user_leny*"
+  material_ScieRadiale2:
+    name: "Scie radiale à onglet"
+    brand: "Bosch"
+    model: "GCM 12 GDL"
+    reference: "0 601 B23 600"
+    category: "@materialCategory_machineDAtelier"
+    owner: "@user_random*"
+  material_karcher_k5:
+    name: "Karcher K5"
+    brand: "Karcher"
+    model: "K5 Smart Control"
+    reference: "1.324-673.0"
+    category: "@materialCategory_nettoyeurHautePression"
+    owner: "@user_random*"
+  material_broyeur_vegetaux:
+    name: "Broyeur de branches"
+    brand: "GARDEN PRO"
+    model: "BRF78 C"
+    reference: "BRF78 C"
+    category: "@materialCategory_terrasseJardin_outillageMotorise"
+    owner: "@user_random*"
+  material_{1..50}:
+    name: '<word()>'
+    brand: '<company()>'
+    model: '<word()>'
+    reference: '<swiftBicNumber()>'
+    category: "@materialCategoryRandom*"
+    owner: "@user_random*"
+
+App\Entity\MaterialImage:
+  materialImage_karcher_k5:
+    imageName: karcher-k5.jpg
+    imageSize: 250
+    material: "@material_karcher_k5"
+  materialImage_broyeur_vegetaux:
+    imageName: Broyeur-de-branches-BRF78-C.jpg
+    imageSize: 250
+    material: "@material_broyeur_vegetaux"
+  materialImage_boschGCM12GDL:
+    imageName: scie-a-onglets-gcm-12-gdl-0601b23600.webp
+    imageSize: 250
+    material: "@material_ScieRadiale2"
+  materialImage_aegPS254L:
+    imageName: scie-a-onglets-PS254L.webp
+    imageSize: 250
+    material: "@material_ScieRadiale1"

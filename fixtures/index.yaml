@@ -1,2 +1,3 @@
 include:
-  - ORM/equipment.yaml
+  - ORM/user.yaml
+  - ORM/material.yaml

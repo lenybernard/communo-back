@@ -1,0 +1,19 @@
+App\Entity\User:
+  user_leny:
+    firstname: "Leny"
+    lastname: "Bernard"
+    email: "leny@bernard.host"
+    password: "password"
+    phoneNumber: "<fr_FR:phoneNumber()>"
+  user_random{1..5}:
+    firstname: "<fr_FR:firstname()>"
+    lastname: "<fr_FR:lastname()>"
+    email: "<fr_FR:email()>"
+    password: "password"
+    phoneNumber: "<fr_FR:phoneNumber()>"
+  user_random{1..2}:
+    firstname: "<en_GB:firstname()>"
+    lastname: "<en_GB:lastname()>"
+    email: "<en_GB:email()>"
+    password: "password"
+    phoneNumber: "<en_GB:phoneNumber()>"

@@ -18,10 +18,10 @@ class MenuBuilder
     {
         $menu = $this->factory->createItem('root');
         $menu->setChildrenAttributes(['class' => 'mainMenu navbar-nav mr-auto']);
-        $menu->addChild($this->translator->trans('home'), ['route' => 'homepage']);
-        $find = $menu->addChild('Catégorie', ['route' => 'homepage'])->setAttributes(['dropdown' => true]);
-        $find->addChild('Équipement', ['route' => 'homepage']);
-        $find->addChild('Services', ['route' => 'homepage']);
+        $menu->addChild($this->translator->trans('front'), ['uri' => 'http://127.0.0.1:3000']);
+        $apiItem = $menu->addChild('API', ['route' => 'api_entrypoint'])->setAttributes(['dropdown' => true]);
+        $apiItem->addChild('SWAGGER', ['route' => 'api_entrypoint']);
+        $apiItem->addChild('GRAPHQL', ['route' => 'api_graphql_entrypoint']);
 
         return $menu;
     }
