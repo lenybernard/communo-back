@@ -3,6 +3,8 @@ App\Entity\MaterialCategory:
     name: "Outillage"
   materialCategory_terrasseJardin:
     name: "Terrasse et jardin"
+  materialCategory_vehicule:
+    name: "Véhicules"
   materialCategory_nettoyage:
     name: "Nettoyage"
     parent: "@materialCategory_outillage"
@@ -50,7 +52,14 @@ App\Entity\Material:
     reference: "BRF78 C"
     category: "@materialCategory_terrasseJardin_outillageMotorise"
     owner: "@user_random*"
-  material_{1..50}:
+  material_C4Picasso:
+    name: "C4 Picasso Rouge"
+    brand: "Citroen"
+    model: "C4 Picasso 2"
+    reference: "115C4Picasso"
+    category: "@materialCategory_vehicule"
+    owner: "@user_leny*"
+  material_{1..100}:
     name: '<word()>'
     brand: '<company()>'
     model: '<word()>'
@@ -75,3 +84,7 @@ App\Entity\MaterialImage:
     imageName: scie-a-onglets-PS254L.webp
     imageSize: 250
     material: "@material_ScieRadiale1"
+  materialImage_c4PicassoRouge:
+    imageName: c4picasso.jpg
+    imageSize: 250
+    material: "@material_C4Picasso"

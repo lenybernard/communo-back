@@ -14,7 +14,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialRepository::class)]
 #[ApiResource(
-    attributes: ["security" => "is_granted('ROLE_USER')"]
+    attributes: [
+        'pagination_type' => 'page'
+    ]
 )]
 class Material
 {
