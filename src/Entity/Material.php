@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\MaterialRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,9 +20,17 @@ use Symfony\Component\Validator\Constraints as Assert;
         'pagination_type' => 'page'
     ]
 )]
+#[ApiFilter(OrderFilter::class, properties: ['createdAt' => 'DESC', 'name'=> 'ASC'])]
+#[ApiFilter(SearchFilter::class, properties: [
+    'name' => 'ipartial',
+    'brand' => 'ipartial',
+    'reference' => 'ipartial',
+    'model' => 'ipartial',
+    'description' => 'ipartial',
+    'category.name' => 'ipartial',
+])]
 class Material
 {
-    use TimestampablePropertiesTrait;
     use TimestampableMethodsTrait;
 
     #[ORM\Id]
@@ -57,6 +67,12 @@ class Material
 
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
+
+    #[ORM\Column(type: 'datetime')]
+    private \DateTime $createdAt;
+
+    #[ORM\Column(type: 'datetime')]
+    private \DateTime $updatedAt;
 
     public function __construct()
     {

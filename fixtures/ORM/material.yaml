@@ -24,41 +24,6 @@ App\Entity\MaterialCategory:
     parent: "@materialCategoryRoot*"
 
 App\Entity\Material:
-  material_ScieRadiale1:
-    name: "Scie radiale à onglet"
-    brand: "AEG"
-    model: "PS254L"
-    reference: "0 601 B23 600"
-    category: "@materialCategory_machineDAtelier"
-    owner: "@user_leny*"
-  material_ScieRadiale2:
-    name: "Scie radiale à onglet"
-    brand: "Bosch"
-    model: "GCM 12 GDL"
-    reference: "0 601 B23 600"
-    category: "@materialCategory_machineDAtelier"
-    owner: "@user_random*"
-  material_karcher_k5:
-    name: "Karcher K5"
-    brand: "Karcher"
-    model: "K5 Smart Control"
-    reference: "1.324-673.0"
-    category: "@materialCategory_nettoyeurHautePression"
-    owner: "@user_random*"
-  material_broyeur_vegetaux:
-    name: "Broyeur de branches"
-    brand: "GARDEN PRO"
-    model: "BRF78 C"
-    reference: "BRF78 C"
-    category: "@materialCategory_terrasseJardin_outillageMotorise"
-    owner: "@user_random*"
-  material_C4Picasso:
-    name: "C4 Picasso Rouge"
-    brand: "Citroen"
-    model: "C4 Picasso 2"
-    reference: "115C4Picasso"
-    category: "@materialCategory_vehicule"
-    owner: "@user_leny*"
   material_{1..100}:
     name: '<word()>'
     brand: '<company()>'
@@ -66,6 +31,53 @@ App\Entity\Material:
     reference: '<swiftBicNumber()>'
     category: "@materialCategoryRandom*"
     owner: "@user_random*"
+    createdAt: '<datetimeBetween("last week","yesterday")>'
+    updatedAt: '<date_create()>'
+  material_ScieRadiale1:
+    name: "Scie radiale à onglet"
+    brand: "AEG"
+    model: "PS254L"
+    reference: "0 601 B23 600"
+    category: "@materialCategory_machineDAtelier"
+    owner: "@user_leny*"
+    createdAt: '<date_create()>'
+    updatedAt: '<date_create()>'
+  material_ScieRadiale2:
+    name: "Scie radiale à onglet"
+    brand: "Bosch"
+    model: "GCM 12 GDL"
+    reference: "0 601 B23 600"
+    category: "@materialCategory_machineDAtelier"
+    owner: "@user_random*"
+    createdAt: '<date_create()>'
+    updatedAt: '<date_create()>'
+  material_karcher_k5:
+    name: "Karcher K5"
+    brand: "Karcher"
+    model: "K5 Smart Control"
+    reference: "1.324-673.0"
+    category: "@materialCategory_nettoyeurHautePression"
+    owner: "@user_random*"
+    createdAt: '<date_create()>'
+    updatedAt: '<date_create()>'
+  material_broyeur_vegetaux:
+    name: "Broyeur de branches"
+    brand: "GARDEN PRO"
+    model: "BRF78 C"
+    reference: "BRF78 C"
+    category: "@materialCategory_terrasseJardin_outillageMotorise"
+    owner: "@user_random*"
+    createdAt: '<date_create()>'
+    updatedAt: '<date_create()>'
+  material_C4Picasso:
+    name: "C4 Picasso Rouge"
+    brand: "Citroen"
+    model: "C4 Picasso 2"
+    reference: "115C4Picasso"
+    category: "@materialCategory_vehicule"
+    owner: "@user_leny*"
+    createdAt: '<date_create()>'
+    updatedAt: '<date_create()>'
 
 App\Entity\MaterialImage:
   materialImage_karcher_k5:
