@@ -273,9 +273,6 @@
             "config/packages/sensio_framework_extra.yaml"
         ]
     },
-    "symfony/amqp-messenger": {
-        "version": "v5.4.0"
-    },
     "symfony/asset": {
         "version": "v5.4.0"
     },
@@ -322,7 +319,7 @@
         "version": "v5.4.1"
     },
     "symfony/doctrine-messenger": {
-        "version": "v5.4.0"
+        "version": "v6.0.2"
     },
     "symfony/dotenv": {
         "version": "v5.4.0"
@@ -466,9 +463,6 @@
     "symfony/polyfill-php56": {
         "version": "v1.20.0"
     },
-    "symfony/polyfill-php73": {
-        "version": "v1.23.0"
-    },
     "symfony/polyfill-php80": {
         "version": "v1.23.1"
     },
@@ -488,9 +482,6 @@
         "version": "v5.4.0"
     },
     "symfony/proxy-manager-bridge": {
-        "version": "v5.4.0"
-    },
-    "symfony/redis-messenger": {
         "version": "v5.4.0"
     },
     "symfony/routing": {
@@ -525,9 +516,6 @@
         "version": "v5.4.0"
     },
     "symfony/security-csrf": {
-        "version": "v5.4.0"
-    },
-    "symfony/security-guard": {
         "version": "v5.4.0"
     },
     "symfony/security-http": {
