@@ -114,6 +114,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "gesdinet/jwt-refresh-token-bundle": {
+        "version": "1.0-dev"
+    },
     "giggsey/libphonenumber-for-php": {
         "version": "8.12.40"
     },
