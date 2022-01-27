@@ -1,0 +1,29 @@
+framework:
+    workflows:
+        material_booking:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'status'
+            supports:
+                - App\Entity\Material\Booking\MaterialBooking
+            initial_marking: estimated
+            places:
+                - estimated
+                - validated
+                - canceled
+                - confirmed
+                - closed
+            transitions:
+                validate:
+                    from: estimated
+                    to: validated
+                cancel:
+                    from: validated
+                    to: canceled
+                confirm:
+                    from: validated
+                    to: confirmed
+                close:
+                    from: confirmed
+                    to: closed

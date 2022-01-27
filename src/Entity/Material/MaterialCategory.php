@@ -1,21 +1,25 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Material;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\MaterialCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialCategoryRepository::class)]
 #[ApiResource]
 class MaterialCategory
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: "uuid")]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
+    #[Assert\Uuid]
+    private string $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
@@ -35,7 +39,7 @@ class MaterialCategory
         $this->materials = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }

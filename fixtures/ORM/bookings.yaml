@@ -1,0 +1,14 @@
+App\Entity\Material\Booking\MaterialBooking:
+  material_booking1:
+    __construct: ['@material_ScieRadiale1']
+    user: "@user_random*"
+    createdAt: '<datetimeBetween("last week","yesterday")>'
+    updatedAt: '<date_create()>'
+    startDate: '<date_create("2022/05/05")>'
+    endDate: '<date_create("2022/05/06")>'
+    status: "confirmed"
+
+App\Entity\Material\Booking\MaterialBookingDatePeriod:
+  material_datePeriod_booking1:
+    __construct: ['@material_booking1', '<date_create("2022/05/05")>', '<date_create("2022/05/06")>']
+    price: 25

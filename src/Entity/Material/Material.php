@@ -1,21 +1,38 @@
 <?php
 
-namespace App\Entity;
+declare(strict_types=1);
+
+namespace App\Entity\Material;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Controller\Material\Booking\GetEstimate;
+use App\Entity\Material\Booking\MaterialBooking;
+use App\Entity\User;
 use App\Repository\MaterialRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialRepository::class)]
 #[ApiResource(
+    itemOperations: [
+        'get',
+        'get_estimate' => [
+            'method' => Request::METHOD_GET,
+            'path' => '/material/{id}/booking/estimate',
+            'controller' => GetEstimate::class,
+            'security' => "is_granted('ROLE_USER')",
+            'normalization_context' => ['groups' => 'booking'],
+        ],
+    ],
     attributes: [
         'pagination_type' => 'page'
     ]
@@ -74,9 +91,21 @@ class Material
     #[ORM\Column(type: 'datetime')]
     private \DateTime $updatedAt;
 
+    /**
+     * @var Collection<int, Pricing>
+     */
+    #[ORM\OneToMany(mappedBy: 'material', targetEntity: Pricing::class, orphanRemoval: true)]
+    private Collection $pricings;
+
+    #[Groups(['booking'])]
+    #[ORM\OneToMany(mappedBy: 'material', targetEntity: MaterialBooking::class, orphanRemoval: true)]
+    private $bookings;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->pricings = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -194,6 +223,80 @@ class Material
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pricing[]
+     */
+    public function getPricings(): Collection
+    {
+        return $this->pricings;
+    }
+
+    /**
+     * @return Pricing|null
+     */
+    public function getPricingByStreak($streak): ?Pricing
+    {
+        foreach ($this->pricings as $pricing) {
+            if ($pricing->getPeriod() === (float) $streak) {
+                return $pricing;
+            }
+        }
+
+        return null;
+    }
+
+    public function addPricing(Pricing $pricing): self
+    {
+        if (!$this->pricings->contains($pricing)) {
+            $this->pricings[] = $pricing;
+            $pricing->setMaterial($this);
+        }
+
+        return $this;
+    }
+
+    public function removePricing(Pricing $pricing): self
+    {
+        if ($this->pricings->removeElement($pricing)) {
+            // set the owning side to null (unless already changed)
+            if ($pricing->getMaterial() === $this) {
+                $pricing->setMaterial(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MaterialBooking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(MaterialBooking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setMaterial($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(MaterialBooking $booking): self
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getMaterial() === $this) {
+                $booking->setMaterial(null);
+            }
+        }
 
         return $this;
     }

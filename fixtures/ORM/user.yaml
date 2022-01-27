@@ -5,15 +5,35 @@ App\Entity\User:
     email: "leny@bernard.host"
     password: "password"
     phoneNumber: "<fr_FR:phoneNumber()>"
+    avatarName: leny.jpg
+    avatarSize: 250
+    city: "Gétigné"
+    roles: ["ROLE_ADMIN", "ROLE_MODERATOR"]
   user_random{1..5}:
     firstname: "<fr_FR:firstname()>"
     lastname: "<fr_FR:lastname()>"
     email: "<fr_FR:email()>"
     password: "password"
     phoneNumber: "<fr_FR:phoneNumber()>"
+    city: "Gétigné"
   user_random{1..2}:
     firstname: "<en_GB:firstname()>"
     lastname: "<en_GB:lastname()>"
     email: "<en_GB:email()>"
     password: "password"
     phoneNumber: "<en_GB:phoneNumber()>"
+    city: "Clisson"
+
+App\Entity\User\Circle:
+  circle_getigneCollectif:
+    name: Gétigné Collectif
+    logoName: logo-getigne-collectif.png
+    logoSize: 250
+    city: Gétigné
+    description: "Gétigné Collectif, c'est un collectif citoyen et 6 élu·e·s au conseil municipal qui s'inscrivent naturellement dans les principes des listes participatives dont la volonté est de réhabiliter la démocratie directe en intégrant les citoyens & les citoyennes dans la vie politique. Le deuxième enjeux, partagé par tous, est d'engager la commune dans une démarche de transition, c'est-à-dire un processus visant à assurer la résilience (capacité à encaisser les crises économiques et/ou écologiques) de la ville face aux défis de notre époque."
+    setMembers: ["@user_leny","@user_random1","@user_random2"]
+  circle_boisDeLaRoche:
+    name: Le Bois de la roche
+    city: Gétigné
+    description: "La communauté du bois de la roche !"
+    setMembers: ["@user_leny","@user_random3","@user_random2"]

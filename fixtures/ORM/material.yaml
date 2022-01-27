@@ -1,4 +1,4 @@
-App\Entity\MaterialCategory:
+App\Entity\Material\MaterialCategory:
   materialCategory_outillage:
     name: "Outillage"
   materialCategory_terrasseJardin:
@@ -23,7 +23,7 @@ App\Entity\MaterialCategory:
     name: "<word()>"
     parent: "@materialCategoryRoot*"
 
-App\Entity\Material:
+App\Entity\Material\Material:
   material_{1..100}:
     name: '<word()>'
     brand: '<company()>'
@@ -79,7 +79,7 @@ App\Entity\Material:
     createdAt: '<date_create()>'
     updatedAt: '<date_create()>'
 
-App\Entity\MaterialImage:
+App\Entity\Material\MaterialImage:
   materialImage_karcher_k5:
     imageName: karcher-k5.jpg
     imageSize: 250
@@ -100,3 +100,47 @@ App\Entity\MaterialImage:
     imageName: c4picasso.jpg
     imageSize: 250
     material: "@material_C4Picasso"
+
+App\Entity\Material\Pricing:
+  pricing_karcher_k5:
+    value: 5
+    period: 1
+    material: "@material_karcher_k5"
+  pricing_karcher_k5_free:
+    value: 0
+    period: 1
+    material: "@material_karcher_k5"
+    circles: ["@circle_getigneCollectif"]
+  pricing_broyeur_vegetaux:
+    value: 0
+    period: 1
+    material: "@material_broyeur_vegetaux"
+    circles: ["@circle_boisDeLaRoche"]
+  pricing_boschGCM12GDL_1:
+    value: 10
+    period: 1
+    material: "@material_ScieRadiale2"
+  pricing_boschGCM12GDL_2:
+    value: 5
+    period: 1
+    material: "@material_ScieRadiale2"
+    circles: ["@circle_getigneCollectif"]
+  pricing_aegPS254L:
+    value: 5
+    period: 1
+    material: "@material_ScieRadiale1"
+    circles: ["@circle_getigneCollectif"]
+  pricing_aegPS254L_2:
+    value: 30
+    period: 1
+    material: "@material_ScieRadiale1"
+  pricing_c4PicassoRouge_1:
+    value: 10
+    period: 1
+    material: "@material_C4Picasso"
+    circles: ["@circle_getigneCollectif", "@circle_boisDeLaRoche"]
+  pricing_c4PicassoRouge_2:
+    value: 15
+    period: 1
+    material: "@material_C4Picasso"
+    circles: []

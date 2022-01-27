@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Material;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\MaterialImageRepository;

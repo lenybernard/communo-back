@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\Material\Booking\MaterialBooking;
+use App\Entity\Material\Material;
+use App\Entity\User\Circle;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,10 +14,15 @@ use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
 use libphonenumber\PhoneNumber;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+/**
+ * @Vich\Uploadable
+ */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource]
@@ -54,9 +62,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public string $phoneNumber;
 
+    /**
+     * @Vich\UploadableField(mapping="user_avatar", fileNameProperty="avatarName", size="avatarSize")
+     */
+    private ?File $avatarFile = null;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $avatarName = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $avatarSize = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $city;
+
+    #[ORM\OneToMany(mappedBy: 'uuser', targetEntity: MaterialBooking::class, orphanRemoval: true)]
+    private $materialBookings;
+
+    #[ORM\ManyToMany(targetEntity: Circle::class, mappedBy: 'members')]
+    private $circles;
+
     public function __construct()
     {
         $this->materials = new ArrayCollection();
+        $this->materialBookings = new ArrayCollection();
+        $this->circles = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -224,5 +254,112 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $prefix .= "0";
         }
         return $prefix.$this->getPhoneNumberObject()->getNationalNumber();
+    }
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $avatarFile
+     */
+    public function setAvatarFile(?File $avatarFile = null): void
+    {
+        $this->avatarFile = $avatarFile;
+    }
+
+    public function getAvatarFile(): ?File
+    {
+        return $this->avatarFile;
+    }
+
+    public function setAvatarName(?string $avatarName): void
+    {
+        $this->avatarName = $avatarName;
+    }
+
+    public function getAvatarName(): ?string
+    {
+        return $this->avatarName;
+    }
+
+    public function setAvatarSize(?int $avatarSize): void
+    {
+        $this->avatarSize = $avatarSize;
+    }
+
+    public function getAvatarSize(): ?int
+    {
+        return $this->avatarSize;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(?string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MaterialBooking[]
+     */
+    public function getMaterialBookings(): Collection
+    {
+        return $this->materialBookings;
+    }
+
+    public function addMaterialBooking(MaterialBooking $materialBooking): self
+    {
+        if (!$this->materialBookings->contains($materialBooking)) {
+            $this->materialBookings[] = $materialBooking;
+            $materialBooking->setUuser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMaterialBooking(MaterialBooking $materialBooking): self
+    {
+        if ($this->materialBookings->removeElement($materialBooking)) {
+            // set the owning side to null (unless already changed)
+            if ($materialBooking->getUuser() === $this) {
+                $materialBooking->setUuser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Circle[]
+     */
+    public function getCircles(): Collection
+    {
+        return $this->circles;
+    }
+
+    public function addCircle(Circle $circle): self
+    {
+        if (!$this->circles->contains($circle)) {
+            $this->circles[] = $circle;
+            $circle->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCircle(Circle $circle): self
+    {
+        if ($this->circles->removeElement($circle)) {
+            $circle->removeMember($this);
+        }
+
+        return $this;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\MaterialImage;
+use App\Entity\Material\MaterialImage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

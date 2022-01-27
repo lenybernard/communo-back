@@ -1,3 +1,4 @@
 include:
   - ORM/user.yaml
   - ORM/material.yaml
+  - ORM/bookings.yaml
