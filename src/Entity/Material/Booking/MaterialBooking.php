@@ -3,6 +3,8 @@
 namespace App\Entity\Material\Booking;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\Material\Booking\GetEstimate;
+use App\Controller\Material\Booking\Validate;
 use App\Entity\Material\Material;
 use App\Entity\User;
 use App\Repository\MaterialBookingRepository;
@@ -12,12 +14,22 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialBookingRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    itemOperations: [
+        'get',
+        'validate' => [
+            'method' => Request::METHOD_PUT,
+            'path' => '/materialbookings/{id}/validate',
+            'controller' => Validate::class,
+        ],
+    ]
+)]
 class MaterialBooking
 {
     use TimestampablePropertiesTrait;
@@ -28,12 +40,17 @@ class MaterialBooking
     public const STATUS_CANCELED = 'canceled';
     public const STATUS_CONFIRMED = 'confirmed';
     public const STATUS_CLOSED = 'closed';
+    public const TRANSITION_VALIDATE = 'validate';
+    public const TRANSITION_CANCEL = 'cancel';
+    public const TRANSITION_CONFIRM = 'confirm';
+    public const TRANSITION_CLOSE = 'close';
 
     #[ORM\Id]
     #[ORM\Column(type: "uuid")]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Assert\Uuid]
+    #[Groups(['booking'])]
     private ?string $id = null;
 
     #[ORM\ManyToOne(targetEntity: Material::class, inversedBy: 'bookings')]
