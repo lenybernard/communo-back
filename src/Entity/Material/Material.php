@@ -15,7 +15,9 @@ use App\Repository\MaterialRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -30,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             'path' => '/material/{id}/booking/estimate',
             'controller' => GetEstimate::class,
             'security' => "is_granted('ROLE_USER')",
-            'normalization_context' => ['groups' => 'booking'],
+            'normalization_context' => ['groups' => 'full'],
         ],
     ],
     attributes: [
@@ -46,8 +48,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     'description' => 'ipartial',
     'category.name' => 'ipartial',
 ])]
-class Material
+class Material implements TimestampableInterface
 {
+    use TimestampablePropertiesTrait;
     use TimestampableMethodsTrait;
 
     #[ORM\Id]
@@ -85,19 +88,13 @@ class Material
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    #[ORM\Column(type: 'datetime')]
-    private \DateTime $createdAt;
-
-    #[ORM\Column(type: 'datetime')]
-    private \DateTime $updatedAt;
-
     /**
      * @var Collection<int, Pricing>
      */
     #[ORM\OneToMany(mappedBy: 'material', targetEntity: Pricing::class, orphanRemoval: true)]
     private Collection $pricings;
 
-    #[Groups(['booking'])]
+    #[Groups(['full'])]
     #[ORM\OneToMany(mappedBy: 'material', targetEntity: MaterialBooking::class, orphanRemoval: true)]
     private $bookings;
 

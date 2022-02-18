@@ -3,6 +3,7 @@
 namespace App\Entity\Material\Booking;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Controller\Material\Booking\GetEstimate;
 use App\Controller\Material\Booking\Validate;
 use App\Entity\Material\Material;
@@ -11,6 +12,7 @@ use App\Repository\MaterialBookingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -25,12 +27,13 @@ use Symfony\Component\Validator\Constraints as Assert;
         'get',
         'validate' => [
             'method' => Request::METHOD_PUT,
-            'path' => '/materialbookings/{id}/validate',
+            'path' => '/material_bookings/{id}/validate',
             'controller' => Validate::class,
+            'normalization_context' => ['groups' => 'full'],
         ],
     ]
 )]
-class MaterialBooking
+class MaterialBooking implements TimestampableInterface
 {
     use TimestampablePropertiesTrait;
     use TimestampableMethodsTrait;
@@ -50,33 +53,36 @@ class MaterialBooking
     #[ORM\GeneratedValue(strategy: "CUSTOM")]
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     #[Assert\Uuid]
-    #[Groups(['booking'])]
+    #[Groups(['full'])]
     private ?string $id = null;
 
     #[ORM\ManyToOne(targetEntity: Material::class, inversedBy: 'bookings')]
     #[ORM\JoinColumn(nullable: false)]
     private Material $material;
 
-    #[Groups(['booking'])]
+    #[Groups(['full'])]
     #[ORM\Column(type: 'date')]
     private \DateTimeInterface $startDate;
 
-    #[Groups(['booking'])]
+    #[Groups(['full'])]
     #[ORM\Column(type: 'date')]
     private \DateTimeInterface $endDate;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'materialBookings')]
     #[ORM\JoinColumn(nullable: false)]
+    #[ApiSubresource]
+    #[Groups(['full'])]
     private User $user;
 
     #[ORM\Column(type: 'string', length: 15, options: ["default" => self::STATUS_ESTIMATED])]
+    #[Groups(['full'])]
     private string $status = self::STATUS_ESTIMATED;
 
-    #[Groups(['booking'])]
+    #[Groups(['full'])]
     #[ORM\OneToMany(mappedBy: 'booking', targetEntity: MaterialBookingDatePeriod::class, orphanRemoval: true, cascade: ['persist', 'remove'], fetch: 'EAGER')]
     private $periods;
 
-    #[Groups(['booking'])]
+    #[Groups(['full'])]
     #[ORM\Column(type: 'float', nullable: true)]
     private $price;
 

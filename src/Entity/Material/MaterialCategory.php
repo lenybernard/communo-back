@@ -7,13 +7,18 @@ use App\Repository\MaterialCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MaterialCategoryRepository::class)]
 #[ApiResource]
-class MaterialCategory
+class MaterialCategory implements TimestampableInterface
 {
+    use TimestampablePropertiesTrait;
+    use TimestampableMethodsTrait;
     #[ORM\Id]
     #[ORM\Column(type: "uuid")]
     #[ORM\GeneratedValue(strategy: "CUSTOM")]

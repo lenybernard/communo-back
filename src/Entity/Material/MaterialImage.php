@@ -5,6 +5,7 @@ namespace App\Entity\Material;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\MaterialImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
@@ -17,7 +18,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 #[ORM\Entity(repositoryClass: MaterialImageRepository::class)]
 #[ApiResource]
-class MaterialImage
+class MaterialImage implements TimestampableInterface
 {
     use TimestampablePropertiesTrait;
     use TimestampableMethodsTrait;

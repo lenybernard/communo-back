@@ -1,14 +1,47 @@
 App\Entity\Material\Booking\MaterialBooking:
   material_booking1:
     __construct: ['@material_ScieRadiale1']
-    user: "@user_random*"
-    createdAt: '<datetimeBetween("last week","yesterday")>'
-    updatedAt: '<date_create()>'
+    user: "@user_random1"
+    startDate: '<date_create("2022/03/05")>'
+    endDate: '<date_create("2022/03/07")>'
+    status: "confirmed"
+  material_booking2:
+    __construct: ['@material_ScieRadiale1']
+    user: "@user_random2"
     startDate: '<date_create("2022/05/05")>'
     endDate: '<date_create("2022/05/06")>'
     status: "confirmed"
 
 App\Entity\Material\Booking\MaterialBookingDatePeriod:
   material_datePeriod_booking1:
+    __construct: ['@material_booking1', '<date_create("2022/03/05")>', '<date_create("2022/03/07")>']
+    price: 37.5
+  material_datePeriod_booking2:
     __construct: ['@material_booking1', '<date_create("2022/05/05")>', '<date_create("2022/05/06")>']
     price: 25
+
+App\Entity\Material\Booking\Rating:
+  material_booking_rating1:
+    booking: "@material_booking1"
+    author: "@user_random1"
+    user: "@user_leny*"
+    value: 5
+    createdAt: '<datetimeBetween("last week","yesterday")>'
+    updatedAt: '<date_create()>'
+  material_booking_rating1-2:
+    booking: "@material_booking1"
+    author: "@user_leny*"
+    user: "@user_random1"
+    value: 4
+  material_booking_rating2:
+    booking: "@material_booking1"
+    author: "@user_random1"
+    user: "@user_leny*"
+    value: 4
+    createdAt: '<datetimeBetween("last week","yesterday")>'
+    updatedAt: '<date_create()>'
+  material_booking_rating2-2:
+    booking: "@material_booking1"
+    author: "@user_leny*"
+    user: "@user_random1"
+    value: 3

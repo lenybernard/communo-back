@@ -11,6 +11,9 @@ use App\Repository\PricingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,8 +28,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]
 )]
 #[ApiFilter(OrderFilter::class, properties: ['value' => 'ASC'])]
-class Pricing
+class Pricing implements TimestampableInterface
 {
+    use TimestampablePropertiesTrait;
+    use TimestampableMethodsTrait;
+
     const PRICING_HALF = 0.5;
     const PRICING_DAY = 1;
     const PRICING_DOUBLE = 2;

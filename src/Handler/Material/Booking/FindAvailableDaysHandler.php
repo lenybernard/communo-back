@@ -29,7 +29,6 @@ class FindAvailableDaysHandler implements MessageHandlerInterface
             $availableDates[$from->format('Y-m-d')] = clone $from;
             $from->modify('+1day');
         }
-        $availableDates[$from->format('Y-m-d')] = clone $from;
 
         foreach ($existingBookings as $existingBooking) {
             $from = new \DateTime($existingBooking['start_date']);

@@ -31,8 +31,6 @@ App\Entity\Material\Material:
     reference: '<swiftBicNumber()>'
     category: "@materialCategoryRandom*"
     owner: "@user_random*"
-    createdAt: '<datetimeBetween("last week","yesterday")>'
-    updatedAt: '<date_create()>'
   material_ScieRadiale1:
     name: "Scie radiale à onglet"
     brand: "AEG"
@@ -40,8 +38,6 @@ App\Entity\Material\Material:
     reference: "0 601 B23 600"
     category: "@materialCategory_machineDAtelier"
     owner: "@user_leny*"
-    createdAt: '<date_create()>'
-    updatedAt: '<date_create()>'
   material_ScieRadiale2:
     name: "Scie radiale à onglet"
     brand: "Bosch"
@@ -49,8 +45,6 @@ App\Entity\Material\Material:
     reference: "0 601 B23 600"
     category: "@materialCategory_machineDAtelier"
     owner: "@user_random*"
-    createdAt: '<date_create()>'
-    updatedAt: '<date_create()>'
   material_karcher_k5:
     name: "Karcher K5"
     brand: "Karcher"
@@ -58,8 +52,6 @@ App\Entity\Material\Material:
     reference: "1.324-673.0"
     category: "@materialCategory_nettoyeurHautePression"
     owner: "@user_random*"
-    createdAt: '<date_create()>'
-    updatedAt: '<date_create()>'
   material_broyeur_vegetaux:
     name: "Broyeur de branches"
     brand: "GARDEN PRO"
@@ -67,8 +59,6 @@ App\Entity\Material\Material:
     reference: "BRF78 C"
     category: "@materialCategory_terrasseJardin_outillageMotorise"
     owner: "@user_random*"
-    createdAt: '<date_create()>'
-    updatedAt: '<date_create()>'
   material_C4Picasso:
     name: "C4 Picasso Rouge"
     brand: "Citroen"
@@ -76,8 +66,6 @@ App\Entity\Material\Material:
     reference: "115C4Picasso"
     category: "@materialCategory_vehicule"
     owner: "@user_leny*"
-    createdAt: '<date_create()>'
-    updatedAt: '<date_create()>'
 
 App\Entity\Material\MaterialImage:
   materialImage_karcher_k5:
@@ -126,7 +114,7 @@ App\Entity\Material\Pricing:
     material: "@material_ScieRadiale2"
     circles: ["@circle_getigneCollectif"]
   pricing_aegPS254L:
-    value: 5
+    value: 12.5
     period: 1
     material: "@material_ScieRadiale1"
     circles: ["@circle_getigneCollectif"]

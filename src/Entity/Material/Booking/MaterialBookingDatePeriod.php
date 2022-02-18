@@ -20,11 +20,11 @@ class MaterialBookingDatePeriod
     #[Assert\Uuid]
     private string $id;
 
-    #[Groups(['booking'])]
+    #[Groups(['full'])]
     #[ORM\Column(type: 'date')]
     private DateTimeInterface $startDate;
 
-    #[Groups(['booking'])]
+    #[Groups(['full'])]
     #[ORM\Column(type: 'date')]
     private DateTimeInterface $endDate;
 
@@ -32,7 +32,7 @@ class MaterialBookingDatePeriod
     #[ORM\JoinColumn(nullable: false)]
     private MaterialBooking $booking;
 
-    #[Groups(['booking'])]
+    #[Groups(['full'])]
     #[ORM\Column(type: 'float', nullable: true)]
     private ?float $price;
 

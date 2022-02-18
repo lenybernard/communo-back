@@ -3,13 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Entity\Material\Booking\MaterialBooking;
+use App\Entity\Material\Booking\Rating;
 use App\Entity\Material\Material;
 use App\Entity\User\Circle;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableMethodsTrait;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampablePropertiesTrait;
 use libphonenumber\PhoneNumber;
@@ -17,6 +20,7 @@ use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -26,7 +30,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ApiResource]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TimestampableInterface
 {
     use TimestampablePropertiesTrait;
     use TimestampableMethodsTrait;
@@ -39,6 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Groups(['full'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -52,12 +57,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $materials;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['full'])]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['full'])]
     private $lastname;
 
     #[ORM\Column(type: 'phone_number', nullable: true)]
+    #[Groups(['full'])]
     private $phoneNumberObject;
 
     public string $phoneNumber;
@@ -76,17 +84,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $city;
 
-    #[ORM\OneToMany(mappedBy: 'uuser', targetEntity: MaterialBooking::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: MaterialBooking::class, orphanRemoval: true)]
     private $materialBookings;
 
     #[ORM\ManyToMany(targetEntity: Circle::class, mappedBy: 'members')]
     private $circles;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Rating::class)]
+    private $ratingsSent;
+
+    #[ApiSubresource]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rating::class, orphanRemoval: true)]
+    private $ratings;
 
     public function __construct()
     {
         $this->materials = new ArrayCollection();
         $this->materialBookings = new ArrayCollection();
         $this->circles = new ArrayCollection();
+        $this->ratingsSent = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -318,7 +335,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->materialBookings->contains($materialBooking)) {
             $this->materialBookings[] = $materialBooking;
-            $materialBooking->setUuser($this);
+            $materialBooking->setUser($this);
         }
 
         return $this;
@@ -328,8 +345,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->materialBookings->removeElement($materialBooking)) {
             // set the owning side to null (unless already changed)
-            if ($materialBooking->getUuser() === $this) {
-                $materialBooking->setUuser(null);
+            if ($materialBooking->getUser() === $this) {
+                $materialBooking->setUser(null);
             }
         }
 
@@ -358,6 +375,78 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->circles->removeElement($circle)) {
             $circle->removeMember($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatingsSent(): Collection
+    {
+        return $this->ratingsSent;
+    }
+
+    public function addRatingsSent(Rating $ratingsSent): self
+    {
+        if (!$this->ratingsSent->contains($ratingsSent)) {
+            $this->ratingsSent[] = $ratingsSent;
+            $ratingsSent->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRatingsSent(Rating $ratingsSent): self
+    {
+        if ($this->ratingsSent->removeElement($ratingsSent)) {
+            // set the owning side to null (unless already changed)
+            if ($ratingsSent->getAuthor() === $this) {
+                $ratingsSent->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Rating[]
+     */
+    public function getRatings(): Collection
+    {
+        return $this->ratings;
+    }
+
+    public function getAverageRatingScore(): float|null
+    {
+        $ratingsNumber = $this->ratings->count();
+
+        if (0 === $ratingsNumber)
+            return null;
+
+        $scores = $this->ratings->map(function($rating) { return $rating->getValue(); })->getValues();
+
+        return array_sum($scores) / $ratingsNumber;
+    }
+
+    public function addRating(Rating $rating): self
+    {
+        if (!$this->ratings->contains($rating)) {
+            $this->ratings[] = $rating;
+            $rating->setRatedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRating(Rating $rating): self
+    {
+        if ($this->ratings->removeElement($rating)) {
+            // set the owning side to null (unless already changed)
+            if ($rating->getRatedUser() === $this) {
+                $rating->setRatedUser(null);
+            }
         }
 
         return $this;

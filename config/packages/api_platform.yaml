@@ -1,7 +1,28 @@
 api_platform:
+    title: Communo
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity']
+        paths:
+            - '%kernel.project_dir%/src/Entity'
     patch_formats:
         json: ['application/merge-patch+json']
+    formats:
+        jsonld: ["application/ld+json"]
+        json: ["application/json", "application/merge-patch+json"]
+        html: ["text/html"]
+    version: 0.1
     swagger:
         versions: [3]
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
+    collection:
+        pagination:
+            # The admin can use the “?itemsPerPage=5” parameter
+            client_items_per_page: true
+
+            # The default number of items per page.
+            items_per_page: 250
+
+            # The maximum number of items per page.
+            maximum_items_per_page: 250
