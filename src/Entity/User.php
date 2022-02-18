@@ -97,6 +97,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rating::class, orphanRemoval: true)]
     private $ratings;
 
+    #[ORM\Column(type: 'string', nullable: true)]
+    private string $gender;
+
     public function __construct()
     {
         $this->materials = new ArrayCollection();
@@ -448,6 +451,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Timesta
                 $rating->setRatedUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }

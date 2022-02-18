@@ -1,0 +1,5 @@
+{% extends '@email/zurb_2/notification/body.txt.twig' %}
+{% block content %}
+    {{ 'material.booking.validate.greetings'|trans({'name': booking.material.owner.firstname}) }}!
+    {{ 'material.booking.validate.body'|trans({'gender': booking.user.gender, 'name': booking.user.firstname, 'material': booking.material.name})|replace({"<br/>":"\n"})|striptags }}
+{% endblock %}

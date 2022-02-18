@@ -1,0 +1,22 @@
+home.materials: Matériels
+home.services: Services
+material:
+  booking:
+    validate:
+      title: 🎉 Nouvelle demande de matériel pour {material}
+      greetings: "👋 Salut {name} !"
+      body: >-
+        {gender, select,
+          female  {{name} est intéressée par <strong>{material}</strong><br/>Réponds-lui rapidement pour que ça se fasse !}
+          male    {{name} est intéressé par <strong>{material}</strong><br/>Réponds-lui rapidement pour que ça se fasse !}
+          other   {{name} est intéressé·e par <strong>{material}</strong><br/>Réponds-lui rapidement pour que ça se fasse !}
+        }
+      importance: >-
+        {importance, select,
+          urgent  {Urgent}
+          high    {Action requise}
+          medium  {Important}
+          other   {}
+        }
+      action:
+        label: Répondre

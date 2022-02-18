@@ -9,6 +9,7 @@ App\Entity\User:
     avatarSize: 250
     city: "Gétigné"
     roles: ["ROLE_ADMIN", "ROLE_MODERATOR"]
+    gender: "male"
   user_random{1..5}:
     firstname: "<fr_FR:firstname()>"
     lastname: "<fr_FR:lastname()>"
@@ -16,6 +17,7 @@ App\Entity\User:
     password: "password"
     phoneNumber: "<fr_FR:phoneNumber()>"
     city: "Gétigné"
+    gender: "female"
   user_random{1..2}:
     firstname: "<en_GB:firstname()>"
     lastname: "<en_GB:lastname()>"

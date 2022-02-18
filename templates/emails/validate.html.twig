@@ -1,0 +1,33 @@
+{% extends '@email/zurb_2/notification/body.html.twig' %}
+
+{% block lead %}
+    {% if importance is not null %}<small><strong>{{ 'material.booking.validate.importance'|trans({'importance': importance})|upper }}</strong></small>{% endif %}
+    <p class="lead">
+        {{ email.subject }}
+    </p>
+{% endblock %}
+
+{% block content %}
+    <container>
+        <row class="header">
+            <columns>
+                <spacer size="16"></spacer>
+                <h1 class="text-center">{{ 'material.booking.validate.greetings'|trans({'name': booking.material.owner.firstname}) }}!</h1>
+                <div>
+                    {{ 'material.booking.validate.body'|trans({'gender': booking.user.gender, 'name': booking.user.firstname, 'material': booking.material.name})|raw }}
+                </div>
+            </columns>
+        </row>
+    </container>
+{% endblock %}
+
+{% block footer %}
+    {% set footer_text = 'Notification envoyée par Communo' %}
+    <row>
+        <columns small="12" large="6">
+            {% block footer_content %}
+                <p><small>{{ footer_text }}</small></p>
+            {% endblock %}
+        </columns>
+    </row>
+{% endblock %}

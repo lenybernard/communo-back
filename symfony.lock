@@ -170,6 +170,9 @@
             "config/packages/lexik_jwt_authentication.yaml"
         ]
     },
+    "lorenzo/pinky": {
+        "version": "1.0.5"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
@@ -299,6 +302,9 @@
         "files": [
             "bin/console"
         ]
+    },
+    "symfony/css-selector": {
+        "version": "v6.0.3"
     },
     "symfony/debug-bundle": {
         "version": "5.4",
@@ -431,7 +437,7 @@
         "version": "v5.4.0"
     },
     "symfony/notifier": {
-        "version": "5.4",
+        "version": "6.0",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
@@ -665,8 +671,17 @@
             "ref": "fe5a50faf580eb58f08ada2abe8afbd2d4941e05"
         }
     },
+    "tijsverkoyen/css-to-inline-styles": {
+        "version": "2.2.4"
+    },
+    "twig/cssinliner-extra": {
+        "version": "v3.3.5"
+    },
     "twig/extra-bundle": {
         "version": "v3.3.4"
+    },
+    "twig/inky-extra": {
+        "version": "v3.3.5"
     },
     "twig/twig": {
         "version": "v3.3.4"
